@@ -22,6 +22,7 @@ Public Server: https://app.remotely.one
 Website: https://remotely.one  
 Subreddit: https://www.reddit.com/r/remotely_app/  
 Docker: https://hub.docker.com/r/translucency/remotely  
+Video Tutorials: https://remotely.one/Tutorials  
 
 ![image](https://user-images.githubusercontent.com/20995508/113913261-f7002a00-9790-11eb-81b3-c36fb8aa536d.png)
 
@@ -54,7 +55,7 @@ However, you can also choose to install the pre-built packages that do not have 
   - If you've already forked the repo and haven't updated your fork since the new installer was created, you'll need to do so first.
   - You can use the following commands to pull the latest changes, merge them, and push them back up to your repo ([git](https://git-scm.com/downloads) required).  Make sure to replace `{your-username}` with your GitHub username.
 	```
-	git clone https://github.com/{your-username}/remotely
+	git clone git@github.com:{your-username}/remotely
 	cd ./remotely
 	git remote add upstream https://github.com/lucent-sea/remotely
 	git pull upstream master
