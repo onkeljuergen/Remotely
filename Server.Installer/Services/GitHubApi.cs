@@ -30,6 +30,7 @@ namespace Server.Installer.Services
         public GitHubApi()
         {
             _httpClient = new HttpClient();
+            _httpClient.Timeout = TimeSpan.FromHours(8);
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "Remotely Server Installer");
         }
 
@@ -94,7 +95,9 @@ namespace Server.Installer.Services
                     return null;
                 }
 
-                return payload.artifacts.OrderByDescending(x => x.created_at).First();
+                return payload.artifacts
+                    .OrderByDescending(x => x.created_at)
+                    .FirstOrDefault(x=>x.name.Equals("Server", StringComparison.OrdinalIgnoreCase));
             }
             catch (Exception ex)
             {

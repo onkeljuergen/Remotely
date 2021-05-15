@@ -96,6 +96,7 @@ if ($Hostname) {
             return
     }
 
+    Replace-LineInFile -FilePath "$Root\Agent.Installer.Win\ViewModels\MainWindowViewModel.cs" -MatchPattern "private string _serverUrl" -ReplaceLineWith "private string _serverUrl = `"$($Hostname)`";" -MaxCount 1
     Replace-LineInFile -FilePath "$Root\Shared\Models\DesktopAppConfig.cs" -MatchPattern "private string _host" -ReplaceLineWith "private string _host = `"$($Hostname)`";" -MaxCount 1
     Replace-LineInFile -FilePath "$Root\Desktop.Win\Properties\PublishProfiles\ClickOnce-x64.pubxml" -MatchPattern "<InstallUrl>" -ReplaceLineWith "    <InstallUrl>$Hostname/Content/Win-x64/ClickOnce/</InstallUrl>"
     Replace-LineInFile -FilePath "$Root\Desktop.Win\Properties\PublishProfiles\ClickOnce-x86.pubxml" -MatchPattern "<InstallUrl>" -ReplaceLineWith "    <InstallUrl>$Hostname/Content/Win-x86/ClickOnce/</InstallUrl>"
@@ -128,10 +129,10 @@ New-Item -Path "$Root\Agent\bin\Release\net5.0\linux-x64\publish\Desktop\" -Item
 
 
 # Publish Linux ScreenCaster
-dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion -p:PublishProfile=packaged-linux-x64 --configuration Release "$Root\Desktop.Linux\"
+dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion -p:PublishProfile=packaged-linux-x64 --configuration Release "$Root\Desktop.XPlat\"
 
 # Publish Linux GUI App
-dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion -p:PublishProfile=desktop-linux-x64 --configuration Release "$Root\Desktop.Linux\"
+dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion -p:PublishProfile=desktop-linux-x64 --configuration Release "$Root\Desktop.XPlat\"
 
 
 # Publish Windows ScreenCaster (32-bit)

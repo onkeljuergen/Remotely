@@ -40,7 +40,6 @@ namespace Remotely.Desktop.Core.Services
 
         public async Task BeginScreenCasting(ScreenCastRequest screenCastRequest)
         {
-        
             try
             {
                 var sendFramesLock = new SemaphoreSlim(1, 1);
@@ -49,6 +48,7 @@ namespace Remotely.Desktop.Core.Services
                 var currentQuality = _maxQuality;
                 Bitmap currentFrame = null;
                 Bitmap previousFrame = null;
+                var sw = Stopwatch.StartNew();
 
                 var viewer = ServiceContainer.Instance.GetRequiredService<Viewer>();
                 viewer.Name = screenCastRequest.RequesterName;
@@ -118,6 +118,9 @@ namespace Remotely.Desktop.Core.Services
                 {
                     try
                     {
+                        TaskHelper.DelayUntil(() => sw.Elapsed.TotalMilliseconds > 40, TimeSpan.FromSeconds(5));
+                        sw.Restart();
+
                         if (viewer.IsUsingWebRtcVideo)
                         {
                             Thread.Sleep(100);
@@ -146,8 +149,7 @@ namespace Remotely.Desktop.Core.Services
                             continue;
                         }
 
-                        if (refreshTimer.Elapsed.TotalSeconds > 10 ||
-                            refreshNeeded && refreshTimer.Elapsed.TotalSeconds > 5)
+                        if (refreshNeeded && refreshTimer.Elapsed.TotalSeconds > 5)
                         {
                             viewer.Capturer.CaptureFullscreen = true;
                         }
@@ -176,12 +178,16 @@ namespace Remotely.Desktop.Core.Services
                         }
                         else
                         {
-                            if (viewer.AverageBytesPerSecond > 0)
+                            if (!viewer.AutoQuality)
+                            {
+                                currentQuality = _maxQuality;
+                            }
+                            else if (viewer.AverageBytesPerSecond > 0)
                             {
                                 var expectedSize = diffArea.Height * diffArea.Width * 4 * .1;
                                 var timeToSend = expectedSize / viewer.AverageBytesPerSecond;
                                 currentQuality = Math.Max(_minQuality, Math.Min(_maxQuality, (int)(.1 / timeToSend * _maxQuality)));
-                                if (currentQuality < _maxQuality - 10)
+                                if (currentQuality < _maxQuality - 5)
                                 {
                                     refreshNeeded = true;
                                     Debug.WriteLine($"Quality Reduced: {currentQuality}");

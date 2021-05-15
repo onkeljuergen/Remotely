@@ -26,9 +26,6 @@ Video Tutorials: https://remotely.one/Tutorials
 
 ![image](https://user-images.githubusercontent.com/20995508/113913261-f7002a00-9790-11eb-81b3-c36fb8aa536d.png)
 
-## WARNING:
-Remotely is undergoing a major overhaul for its server installation process.  There will be some instability for a short time, and the documentation below may not reflect the current state.  It's recommended that you use the installation scripts from the latest full release if you don't wish to participate in testing.
-
 ## Disclaimer
 Hosting a Remotely server requires running an ASP.NET Core web app behind IIS (Windows), Nginx (Ubuntu), or Caddy Server (any OS).  It's expected that the person deploying and maintaining the server is familiar with this process.  Since this is a hobby project that I develop in between working full time and raising a family, there simply isn't time available to provide support in this capacity.
 
@@ -52,8 +49,8 @@ However, you can also choose to install the pre-built packages that do not have 
 - If you want to use the pre-built package, run the installer now, and you're done!
   - Otherwise, follow the below steps for setting up the GitHub Actions integration, then run the installer afterward.
 - Fork the repo if you haven't already.
-  - If you've already forked the repo and haven't updated your fork since the new installer was created, you'll need to do so first.
-  - You can use the following commands to pull the latest changes, merge them, and push them back up to your repo ([git](https://git-scm.com/downloads) required).  Make sure to replace `{your-username}` with your GitHub username.
+  - If you've already forked the repo and haven't updated your fork recently, you'll need to do so first.
+  - You can use the following commands to pull the latest changes, merge them, and push them back up to your repo ([git](https://git-scm.com/downloads) required).  Make sure to replace `{your-username}` with your GitHub username.  This example assumes you've added your SSH key to your GitHub account.
 	```
 	git clone git@github.com:{your-username}/remotely
 	cd ./remotely
@@ -104,7 +101,7 @@ The following steps will configure your Windows 10 machine for building the Remo
 	* You should have the following Workloads selected:
 	    * ASP.NET and web development
 		* .NET desktop development
-		* .NET Core corss-platform development
+		* .NET Core cross-platform development
 	* You should have the following Individual Components selected:
 	    * .NET SDK (latest version).
 		* MSBuild (which auto-selects Roslyn compilers).
